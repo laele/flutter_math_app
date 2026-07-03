@@ -36,6 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   rive: ^0.14.9
   google_fonts: ^8.1.0
+  flutter_bloc: ^9.1.1
+  equatable: ^2.0.8
+  get_it: ^8.0.2
 
 dev_dependencies:
   flutter_test:
