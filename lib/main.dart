@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<GameCubit>(),
+      create: (context) => sl<GameCubit>()..initNotifier(),
       child: MaterialApp(
         title: 'Froggy Math',
         theme: AppTheme.light(),
