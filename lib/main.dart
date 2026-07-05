@@ -22,7 +22,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => sl<GameCubit>()),
-        BlocProvider(create: (context) => sl<InputRecognitionCubit>()),
+        BlocProvider(
+          create: (context) =>
+              sl<InputRecognitionCubit>()..ensureModelDownloaded(),
+        ),
       ],
       child: MaterialApp(
         title: 'Froggy Math',

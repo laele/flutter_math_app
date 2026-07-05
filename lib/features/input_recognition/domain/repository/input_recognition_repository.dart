@@ -8,4 +8,6 @@ abstract interface class InputRecognitionRepository {
     required double canvasWidth,
     required double canvasHeight,
   });
+
+  Future<Either<Failure, Unit>> ensureModelDownloaded();
 }

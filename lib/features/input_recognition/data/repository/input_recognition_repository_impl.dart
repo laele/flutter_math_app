@@ -45,4 +45,16 @@ class InputRecognitionRepositoryImpl implements InputRecognitionRepository {
       return left(UnknownInputRecognitionFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> ensureModelDownloaded() async {
+    try {
+      await datasource.ensureModelDownloaded();
+      return right(unit);
+    } on ModelNotDownloadedException {
+      return left(ModelNotDownloadedFailure());
+    } catch (_) {
+      return left(UnknownInputRecognitionFailure());
+    }
+  }
 }
