@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_math_app/features/game/presentation/screens/home/widgets/home_action_buttons.dart';
 import 'package:flutter_math_app/features/game/presentation/screens/home/widgets/home_mascot_background.dart';
 import 'package:flutter_math_app/features/game/presentation/screens/home/widgets/home_play_canvas.dart';
+import 'package:flutter_math_app/features/input_recognition/presentation/input_recognition_cubit/input_recognition_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   final GlobalKey<HomePlayCanvasState> homePlayCanvasKey = GlobalKey<HomePlayCanvasState>();
@@ -23,7 +25,13 @@ class HomeScreen extends StatelessWidget {
       ),
       floatingActionButton: HomeFloatingActionButtons(
         submitOnTap: () async {
-          await homePlayCanvasKey.currentState?.fadeAnimation();
+          context.read<InputRecognitionCubit>().submitResult(
+            canvasWidth: MediaQuery.sizeOf(context).width,
+            canvasHeight: MediaQuery.sizeOf(context).height,
+          );
+          await homePlayCanvasKey.currentState?.playOutAnimation();
+          context.read<InputRecognitionCubit>().clearCanvas();
+          homePlayCanvasKey.currentState?.resetAnimation();
         },
       ),
     );

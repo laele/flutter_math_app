@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_math_app/features/game/presentation/game_cubit/game_cubit.dart';
+import 'package:flutter_math_app/features/input_recognition/presentation/input_recognition_cubit/input_recognition_cubit.dart';
 
 class HomeFloatingActionButtons extends StatelessWidget {
   final VoidCallback submitOnTap;
@@ -35,9 +36,7 @@ class HomeFloatingActionButtons extends StatelessWidget {
         ),
         SizedBox(height: 12),
         FloatingActionButton(
-          onPressed: () {
-            context.read<GameCubit>().clearCanvas();
-          },
+          onPressed: () {},
           child: Icon(Icons.delete),
         ),
         SizedBox(height: 12),

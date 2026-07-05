@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_math_app/features/game/presentation/game_cubit/game_cubit.dart';
+import 'package:flutter_math_app/features/input_recognition/presentation/input_recognition_cubit/input_recognition_cubit.dart';
 import 'package:scribble/scribble.dart';
 
 class HomePlayCanvas extends StatefulWidget {
@@ -34,15 +35,19 @@ class HomePlayCanvasState extends State<HomePlayCanvas> with SingleTickerProvide
     super.dispose();
   }
 
-  Future<void> fadeAnimation() async {
+  Future<void> playOutAnimation() async {
     await controller.forward();
-    context.read<GameCubit>().clearCanvas();
+    //context.read<GameCubit>().clearCanvas();
+    //controller.reset();
+  }
+
+  void resetAnimation() async {
     controller.reset();
   }
 
   @override
   Widget build(BuildContext context) {
-    final gameCubit = context.read<GameCubit>();
+    final inputRecognitionCubit = context.read<InputRecognitionCubit>();
     return Column(
       children: [
         Expanded(
@@ -54,7 +59,7 @@ class HomePlayCanvasState extends State<HomePlayCanvas> with SingleTickerProvide
                 child: Transform.scale(
                   scale: _scale.value,
                   child: Scribble(
-                    notifier: gameCubit.notifier,
+                    notifier: inputRecognitionCubit.notifier,
                     drawPen: true,
                   ),
                 ),
