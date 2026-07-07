@@ -4,6 +4,8 @@ An educational Flutter application currently under development.
 
 The goal of this project is to create an interactive learning experience where users solve simple math exercises by **writing the answer directly on the screen**. Handwritten numbers are recognized using **Google ML Kit Digital Ink Recognition**, while an animated pet provides visual feedback throughout the experience.
 
+<img width="424" height="880" alt="ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/e140ff66-1dda-47c5-86c6-c36c7d0089f9" />
+
 ## ✨ Features
 
 * ✍️ Handwritten number input using Scribble
