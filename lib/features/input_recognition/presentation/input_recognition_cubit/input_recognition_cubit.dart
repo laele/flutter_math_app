@@ -49,6 +49,11 @@ class InputRecognitionCubit extends Cubit<InputRecognitionState> {
     );
   }
 
+  void clearCanvas() {
+    notifier.clear();
+    _timer?.cancel();
+  }
+
   void ensureModelDownloaded() async {
     emit(
       state.copyWith(
@@ -114,10 +119,6 @@ class InputRecognitionCubit extends Cubit<InputRecognitionState> {
     UnknownInputRecognitionFailure() => 'Something went wrong, try again',
     (_) => 'Something went wrong, try again',
   };
-
-  void clearCanvas() {
-    notifier.clear();
-  }
 
   @override
   Future<void> close() {

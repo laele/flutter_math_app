@@ -64,12 +64,9 @@ class HomePlayCanvasState extends State<HomePlayCanvas> with SingleTickerProvide
       },
       child: Listener(
         onPointerDown: (_) {
-          print('point down');
           inputRecognitionCubit.onStartedStroke();
         },
         onPointerUp: (_) {
-          print('point up');
-
           inputRecognitionCubit.onFinishedStroke(canvasHeight: canvasHeight, canvasWidth: canvasWidth);
         },
         child: Column(
