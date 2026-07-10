@@ -92,7 +92,7 @@ class GameCubit extends Cubit<GameState> {
     if (result == state.result) {
       final tier = DifficultyTiers.byMode[state.gameMode];
       final newCorrectStreaks = state.currentGameStats.correctStreak + 1;
-      final isChangetoNextLevel = tier != null && newCorrectStreaks > 1 && state.currentGameStats.currentTierIndex < tier.length - 1;
+      final isChangetoNextLevel = tier != null && newCorrectStreaks > 4 && state.currentGameStats.currentTierIndex < tier.length - 1;
 
       final newStats = isChangetoNextLevel
           ? state.currentGameStats.copyWith(
