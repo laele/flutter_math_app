@@ -86,7 +86,6 @@ class InputRecognitionCubit extends Cubit<InputRecognitionState> {
     ).toList();
 
     emit(state.copyWith(status: InputRecognitionStatus.processing));
-    print('Status processing: ${state.status}');
 
     final result = await _recognizeNumberUseCase(
       RecognizeNumberParams(
@@ -99,16 +98,15 @@ class InputRecognitionCubit extends Cubit<InputRecognitionState> {
     result.fold(
       (failure) {
         emit(state.copyWith(status: InputRecognitionStatus.failed, errorMessage: _errorMessageFromFailure(failure)));
-        print('status failed');
       },
       (number) {
         emit(state.copyWith(numberRecognized: number, status: InputRecognitionStatus.success));
-        print('status success');
+        //print('status success');
       },
     );
 
     emit(state.copyWith(status: InputRecognitionStatus.idle));
-    print('status idle');
+    //print('status idle');
   }
 
   String _errorMessageFromFailure(Failure failure) => switch (failure) {

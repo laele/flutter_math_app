@@ -88,7 +88,7 @@ class GameCubit extends Cubit<GameState> {
     };
   }
 
-  void checkResult(int result) {
+  void checkResult(int result) async {
     if (result == state.result) {
       final tier = DifficultyTiers.byMode[state.gameMode];
       final newCorrectStreaks = state.currentGameStats.correctStreak + 1;
@@ -108,9 +108,11 @@ class GameCubit extends Cubit<GameState> {
       _setNewStats(state.gameMode, newStats);
 
       if (isChangetoNextLevel) {
-        playAnimation(PetAnimation.success, 'Excellent! Here comes the next level!');
+        await playAnimationWithMessageAndDelay(PetAnimation.success, 'Excellent! Here comes the next level!');
+        //playAnimation(PetAnimation.success, 'Excellent! Here comes the next level!', clearAfterShow: true);
       } else {
-        playAnimation(PetAnimation.success, 'Amazing, Let\'s try next number!');
+        await playAnimationWithMessageAndDelay(PetAnimation.success, 'Amazing, Let\'s try next number!');
+        //playAnimation(PetAnimation.success, 'Amazing, Let\'s try next number!', clearAfterShow: true);
       }
       generateNextLevel();
     } else {
@@ -130,10 +132,11 @@ class GameCubit extends Cubit<GameState> {
       _setNewStats(state.gameMode, newStats);
 
       if (isChangeToLowerLevel) {
-        playAnimation(PetAnimation.failed, 'Let\'s try an easier one!');
+        await playAnimationWithMessageAndDelay(PetAnimation.failed, 'Let\'s try an easier one!');
+        //playAnimation(PetAnimation.failed, 'Let\'s try an easier one!', clearAfterShow: true);
         generateNextLevel();
       } else {
-        playAnimation(PetAnimation.failed, 'Nope, Try it again!');
+        playAnimation(PetAnimation.failed, 'Nope, Try it again!', clearAfterShow: true);
       }
     }
   }
@@ -143,22 +146,34 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(stats: stats));
   }
 
-  void playPetSuccess({String? message, int? num}) {
-    playAnimation(PetAnimation.success, 'It looks like a $num!');
+  void playPetSuccess({String? message, int? num, bool clearAfterShow = false}) {
+    playAnimation(PetAnimation.success, 'It looks like a $num!', clearAfterShow: clearAfterShow);
   }
 
-  void playPetThinking({String? message}) {
-    playAnimation(PetAnimation.thinking, message);
+  void playPetThinking({String? message, bool clearAfterShow = false}) {
+    playAnimation(PetAnimation.thinking, message, clearAfterShow: clearAfterShow);
   }
 
-  void playPetFailed({String? message}) {
-    playAnimation(PetAnimation.failed, message);
+  void playPetFailed({String? message, bool clearAfterShow = false}) {
+    playAnimation(PetAnimation.failed, message, clearAfterShow: clearAfterShow);
   }
 
-  void playAnimation(PetAnimation animation, String? message) {
-    emit(
-      state.copyWith(petAnimation: animation, message: message),
-    );
+  Future<void> playAnimationWithMessageAndDelay(PetAnimation animation, String? message) async {
+    emit(state.copyWith(petAnimation: animation, message: message));
+    await Future.delayed(Duration(seconds: 4));
+  }
+
+  void playAnimation(PetAnimation animation, String? message, {bool clearAfterShow = false}) async {
+    if (clearAfterShow) {
+      final String? previousMessage = state.message;
+      print(previousMessage);
+
+      emit(state.copyWith(petAnimation: animation, message: message));
+      await Future.delayed(Duration(seconds: 4));
+      emit(state.copyWith(message: previousMessage));
+      return;
+    }
+    emit(state.copyWith(petAnimation: animation, message: message));
   }
 
   void clearMessage() {

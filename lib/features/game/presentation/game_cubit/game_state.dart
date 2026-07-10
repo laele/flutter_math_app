@@ -45,7 +45,7 @@ class GameState extends Equatable {
       stats: stats ?? this.stats,
       petAnimation: petAnimation ?? this.petAnimation,
       gameMode: gameMode ?? this.gameMode,
-      message: message,
+      message: message ?? this.message,
       result: result ?? this.result,
       firstNum: firstNum ?? this.firstNum,
       secNum: secNum ?? this.secNum,

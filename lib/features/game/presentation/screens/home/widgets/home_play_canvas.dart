@@ -51,9 +51,7 @@ class HomePlayCanvasState extends State<HomePlayCanvas> with SingleTickerProvide
     final canvasHeight = MediaQuery.sizeOf(context).height;
     return BlocListener<InputRecognitionCubit, InputRecognitionState>(
       listenWhen: (previous, current) {
-        print('CHECKING previous state: ${previous.status} - current state: ${current.status} - ');
         if (previous.status != current.status) {
-          print('TRUE previous state: ${previous.status} - current state: ${current.status} - ');
           return true;
         }
         return false;
@@ -65,7 +63,7 @@ class HomePlayCanvasState extends State<HomePlayCanvas> with SingleTickerProvide
           resetAnimation();
         }
         if (state.isStatusFailure) {
-          context.read<GameCubit>().playPetFailed(message: state.errorMessage);
+          context.read<GameCubit>().playPetFailed(message: state.errorMessage, clearAfterShow: true);
         }
         if (state.status == InputRecognitionStatus.success) {
           context.read<GameCubit>().checkResult(state.numberRecognized!);
