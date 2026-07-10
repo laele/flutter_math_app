@@ -21,7 +21,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<GameCubit>()),
+        BlocProvider(
+          create: (context) => sl<GameCubit>()
+            ..initStats()
+            ..generateNextLevel(),
+        ),
         BlocProvider(
           create: (context) => sl<InputRecognitionCubit>()
             ..ensureModelDownloaded()

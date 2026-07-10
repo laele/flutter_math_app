@@ -1,7 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_math_app/core/theme/app_colors.dart';
 import 'package:flutter_math_app/core/theme/app_gradients.dart';
 import 'package:flutter_math_app/features/game/presentation/game_cubit/game_cubit.dart';
 import 'package:flutter_math_app/features/game/presentation/screens/home/widgets/home_learn_numbers.dart';
@@ -74,15 +73,7 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
                   ),
                 ),
 
-                BlocBuilder<GameCubit, GameState>(
-                  buildWhen: (previous, current) => previous.gameMode != current.gameMode,
-                  builder: (context, state) {
-                    if (state.gameMode == GameMode.learnNumbers) {
-                      return HomeLearnNumbers();
-                    }
-                    return SizedBox.shrink();
-                  },
-                ),
+                //HomeLearnNumbers(),
                 BlocBuilder<GameCubit, GameState>(
                   buildWhen: (previous, current) {
                     if (previous.message != current.message) {
@@ -103,7 +94,8 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
                                 totalRepeatCount: 1,
                                 onFinished: () async {
                                   await Future.delayed(Duration(seconds: 2));
-                                  context.read<GameCubit>().clearMessage();
+                                  //context.read<GameCubit>().setClearMessageToTrue();
+                                  //context.read<GameCubit>().clearMessage();
                                 },
                                 animatedTexts: [
                                   TyperAnimatedText(

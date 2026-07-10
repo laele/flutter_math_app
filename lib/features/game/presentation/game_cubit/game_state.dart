@@ -2,19 +2,24 @@ part of 'game_cubit.dart';
 
 enum PetAnimation { idle, thinking, failed, success }
 
-enum GameMode { learnNumbers, learnLetters, add, sub, mult, div, mix }
+enum GameMode { tutorial, learnNumbers, learnLetters, add, sub, mult, div, mix }
 
 class GameState extends Equatable {
+  final Map<GameMode, GameStatsEntity> stats;
   final PetAnimation petAnimation;
   final GameMode gameMode;
+  final bool readyToClearMessage;
   final String? message;
   final int? firstNum;
   final int? secNum;
   final int? result;
   final String? letter;
+
   const GameState({
     required this.petAnimation,
     required this.gameMode,
+    this.readyToClearMessage = false,
+    this.stats = const {},
     this.message,
     this.result,
     this.firstNum,
@@ -22,7 +27,10 @@ class GameState extends Equatable {
     this.letter,
   });
 
+  GameStatsEntity get currentGameStats => stats[gameMode] ?? GameStatsEntity();
+
   GameState copyWith({
+    Map<GameMode, GameStatsEntity>? stats,
     PetAnimation? petAnimation,
     GameMode? gameMode,
     String? message,
@@ -30,8 +38,11 @@ class GameState extends Equatable {
     int? firstNum,
     int? secNum,
     String? letter,
+    bool? readyToClearMessage,
   }) {
     return GameState(
+      readyToClearMessage: readyToClearMessage ?? this.readyToClearMessage,
+      stats: stats ?? this.stats,
       petAnimation: petAnimation ?? this.petAnimation,
       gameMode: gameMode ?? this.gameMode,
       message: message,
@@ -44,6 +55,8 @@ class GameState extends Equatable {
 
   @override
   List<Object?> get props => [
+    readyToClearMessage,
+    stats,
     petAnimation,
     gameMode,
     message,

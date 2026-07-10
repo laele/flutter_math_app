@@ -55,11 +55,6 @@ class InputRecognitionCubit extends Cubit<InputRecognitionState> {
   }
 
   void ensureModelDownloaded() async {
-    emit(
-      state.copyWith(
-        status: InputRecognitionStatus.processing,
-      ),
-    );
     final ensuremodelDownloaded = await _ensureModelDownloadedUseCase(
       NoParams(),
     );
@@ -75,8 +70,6 @@ class InputRecognitionCubit extends Cubit<InputRecognitionState> {
     required double canvasWidth,
     required double canvasHeight,
   }) async {
-    emit(state.copyWith(status: InputRecognitionStatus.processing));
-
     final strokes = notifier.currentSketch.lines.map(
       (line) {
         return DrawnStrokeEntity(
@@ -92,6 +85,9 @@ class InputRecognitionCubit extends Cubit<InputRecognitionState> {
       },
     ).toList();
 
+    emit(state.copyWith(status: InputRecognitionStatus.processing));
+    print('Status processing: ${state.status}');
+
     final result = await _recognizeNumberUseCase(
       RecognizeNumberParams(
         strokes: strokes,
@@ -103,14 +99,16 @@ class InputRecognitionCubit extends Cubit<InputRecognitionState> {
     result.fold(
       (failure) {
         emit(state.copyWith(status: InputRecognitionStatus.failed, errorMessage: _errorMessageFromFailure(failure)));
-        clearCanvas();
+        print('status failed');
       },
       (number) {
         emit(state.copyWith(numberRecognized: number, status: InputRecognitionStatus.success));
+        print('status success');
       },
     );
 
     emit(state.copyWith(status: InputRecognitionStatus.idle));
+    print('status idle');
   }
 
   String _errorMessageFromFailure(Failure failure) => switch (failure) {
