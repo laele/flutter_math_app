@@ -61,7 +61,7 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
         _animationState(state.petAnimation);
       },
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
+        //mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Expanded(
             child: Stack(
@@ -90,11 +90,13 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
                   ),
                 ),*/
                 //HomeLearnNumbers(),
+                Align(
+                  alignment: AlignmentGeometry.bottomCenter,
+                  child: HomeAnimatedTextBubble(),
+                ),
               ],
             ),
           ),
-
-          HomeAnimatedTextBubble(),
 
           SizedBox(
             width: double.infinity,
