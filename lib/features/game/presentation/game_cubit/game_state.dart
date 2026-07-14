@@ -8,6 +8,7 @@ class GameState extends Equatable {
   final Map<GameMode, GameStatsEntity> stats;
   final PetAnimation petAnimation;
   final GameMode gameMode;
+  final List<GameMode> selectedGameModes;
   final bool readyToClearMessage;
   final String? message;
   final int? firstNum;
@@ -19,6 +20,7 @@ class GameState extends Equatable {
   const GameState({
     required this.petAnimation,
     required this.gameMode,
+    required this.selectedGameModes,
     this.readyToClearMessage = false,
     this.stats = const {},
     this.message,
@@ -35,6 +37,7 @@ class GameState extends Equatable {
     Map<GameMode, GameStatsEntity>? stats,
     PetAnimation? petAnimation,
     GameMode? gameMode,
+    List<GameMode>? selectedGameModes,
     String? message,
     int? result,
     int? firstNum,
@@ -44,6 +47,7 @@ class GameState extends Equatable {
     bool? canDraw,
   }) {
     return GameState(
+      selectedGameModes: selectedGameModes ?? this.selectedGameModes,
       readyToClearMessage: readyToClearMessage ?? this.readyToClearMessage,
       stats: stats ?? this.stats,
       petAnimation: petAnimation ?? this.petAnimation,
@@ -58,5 +62,17 @@ class GameState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [readyToClearMessage, stats, petAnimation, gameMode, message, result, firstNum, secNum, letter, canDraw];
+  List<Object?> get props => [
+    readyToClearMessage,
+    stats,
+    petAnimation,
+    gameMode,
+    message,
+    result,
+    firstNum,
+    secNum,
+    letter,
+    canDraw,
+    selectedGameModes,
+  ];
 }

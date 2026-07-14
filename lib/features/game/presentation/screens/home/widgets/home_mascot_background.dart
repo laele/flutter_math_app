@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_math_app/core/theme/app_gradients.dart';
 import 'package:flutter_math_app/features/game/presentation/game_cubit/game_cubit.dart';
-import 'package:flutter_math_app/features/game/presentation/screens/home/home_screen.dart';
-import 'package:flutter_math_app/features/game/presentation/screens/home/widgets/home_learn_numbers.dart';
-import 'package:flutter_math_app/features/game/presentation/screens/home/widgets/home_menu_mode.dart';
+import 'package:flutter_math_app/features/game/presentation/screens/home/widgets/home_animated_text_bubble.dart';
 import 'package:rive/rive.dart';
 
 class HomeMascotBackground extends StatefulWidget {
@@ -75,59 +73,29 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
                   ),
                 ),
 
-                //HomeLearnNumbers(),
-                Container(
-                  // color: Colors.red,
-                  child: BlocBuilder<GameCubit, GameState>(
-                    buildWhen: (previous, current) => previous.gameMode != current.gameMode,
-                    builder: (context, state) {
-                      if (state.gameMode == GameMode.menu) return HomeMenuMode();
-                      return SizedBox.shrink();
-                    },
+                /*SafeArea(
+                  child: Column(
+                    children: [
+                      Container(
+                        // color: Colors.red,
+                        child: BlocBuilder<GameCubit, GameState>(
+                          buildWhen: (previous, current) => previous.gameMode != current.gameMode,
+                          builder: (context, state) {
+                            //if (state.gameMode == GameMode.menu) return Expanded(child: HomeMenuMode());
+                            return SizedBox.shrink();
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                ),*/
+                //HomeLearnNumbers(),
               ],
             ),
           ),
 
-          BlocBuilder<GameCubit, GameState>(
-            buildWhen: (previous, current) {
-              if (previous.message != current.message) {
-                return true;
-              }
-              return false;
-            },
-            builder: (context, state) => state.message != null
-                ? Container(
-                    //color: Colors.yellow,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Align(
-                        alignment: AlignmentGeometry.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AnimatedTextKit(
-                            key: ValueKey(state.message),
-                            //repeatForever: true,
-                            totalRepeatCount: 1,
-                            onFinished: () async {
-                              await Future.delayed(Duration(seconds: 2));
-                              //context.read<GameCubit>().setClearMessageToTrue();
-                              //context.read<GameCubit>().clearMessage();
-                            },
-                            animatedTexts: [
-                              TyperAnimatedText(
-                                state.message!,
-                                textStyle: Theme.of(context).textTheme.displayMedium,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-                : SizedBox.shrink(),
-          ),
+          HomeAnimatedTextBubble(),
+
           SizedBox(
             width: double.infinity,
             child: AspectRatio(

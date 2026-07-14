@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_math_app/features/game/domain/constants/difficulty_tiers.dart';
+import 'package:flutter_math_app/features/game/domain/constants/game_modes.dart';
 import 'package:flutter_math_app/features/game/domain/entities/game_question_entity.dart';
 import 'package:flutter_math_app/features/game/domain/entities/game_stats_entity.dart';
 import 'package:flutter_math_app/features/game/domain/services/question_generator_factory.dart';
@@ -15,6 +16,7 @@ class GameCubit extends Cubit<GameState> {
         GameState(
           petAnimation: PetAnimation.idle,
           gameMode: GameMode.menu,
+          selectedGameModes: GameModes.items.map((e) => e.gameMode).toList(),
         ),
       );
 
@@ -180,6 +182,18 @@ class GameCubit extends Cubit<GameState> {
   void backToMenu() {
     emit(state.copyWith(gameMode: GameMode.menu, canDraw: false));
     clearMessage();
+  }
+
+  void setGameModes(GameMode gameMode) {
+    final selectedGameModes = List<GameMode>.from(state.selectedGameModes);
+
+    if (selectedGameModes.contains(gameMode)) {
+      selectedGameModes.remove(gameMode);
+    } else {
+      selectedGameModes.add(gameMode);
+    }
+
+    emit(state.copyWith(selectedGameModes: selectedGameModes));
   }
 
   void clearMessage() {
