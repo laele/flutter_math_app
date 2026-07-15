@@ -37,7 +37,10 @@ class HomeAnimatedTextBubble extends StatelessWidget {
                       animatedTexts: [
                         TyperAnimatedText(
                           state.message!,
-                          textStyle: Theme.of(context).textTheme.headlineLarge!.copyWith(color: Colors.pink),
+                          textAlign: TextAlign.center,
+                          textStyle: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                            color: Colors.pink,
+                          ),
                         ),
                       ],
                     ),

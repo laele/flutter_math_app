@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => sl<GameCubit>()
             ..initStats()
-            ..generateNextLevel(),
+            ..backToMenu(),
         ),
         BlocProvider(
           create: (context) => sl<InputRecognitionCubit>()

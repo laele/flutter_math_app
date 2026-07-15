@@ -2,13 +2,17 @@ part of 'game_cubit.dart';
 
 enum PetAnimation { idle, thinking, failed, success }
 
-enum GameMode { tutorial, learnNumbers, learnLetters, add, sub, mult, div, mix, menu }
+enum GameMode { tutorial, learnNumbers, add, sub, mult, div, menu }
 
 class GameState extends Equatable {
   final Map<GameMode, GameStatsEntity> stats;
   final PetAnimation petAnimation;
+
   final GameMode gameMode;
+  final GameMode currentQuestionMode;
   final List<GameMode> selectedGameModes;
+
+  final int currentExercise;
   final bool readyToClearMessage;
   final String? message;
   final int? firstNum;
@@ -21,6 +25,8 @@ class GameState extends Equatable {
     required this.petAnimation,
     required this.gameMode,
     required this.selectedGameModes,
+    required this.currentExercise,
+    required this.currentQuestionMode,
     this.readyToClearMessage = false,
     this.stats = const {},
     this.message,
@@ -31,12 +37,13 @@ class GameState extends Equatable {
     this.canDraw = false,
   });
 
-  GameStatsEntity get currentGameStats => stats[gameMode] ?? GameStatsEntity();
+  GameStatsEntity get currentGameStats => stats[currentQuestionMode] ?? GameStatsEntity();
 
   GameState copyWith({
     Map<GameMode, GameStatsEntity>? stats,
     PetAnimation? petAnimation,
     GameMode? gameMode,
+    GameMode? currentQuestionMode,
     List<GameMode>? selectedGameModes,
     String? message,
     int? result,
@@ -45,8 +52,10 @@ class GameState extends Equatable {
     String? letter,
     bool? readyToClearMessage,
     bool? canDraw,
+    int? currentExercise,
   }) {
     return GameState(
+      currentQuestionMode: currentQuestionMode ?? this.currentQuestionMode,
       selectedGameModes: selectedGameModes ?? this.selectedGameModes,
       readyToClearMessage: readyToClearMessage ?? this.readyToClearMessage,
       stats: stats ?? this.stats,
@@ -58,6 +67,7 @@ class GameState extends Equatable {
       secNum: secNum ?? this.secNum,
       letter: letter ?? this.letter,
       canDraw: canDraw ?? this.canDraw,
+      currentExercise: currentExercise ?? this.currentExercise,
     );
   }
 
@@ -74,5 +84,7 @@ class GameState extends Equatable {
     letter,
     canDraw,
     selectedGameModes,
+    currentExercise,
+    currentQuestionMode,
   ];
 }

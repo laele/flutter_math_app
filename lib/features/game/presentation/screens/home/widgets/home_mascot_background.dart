@@ -72,23 +72,6 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
                     gradient: AppGradients.background,
                   ),
                 ),
-
-                /*SafeArea(
-                  child: Column(
-                    children: [
-                      Container(
-                        // color: Colors.red,
-                        child: BlocBuilder<GameCubit, GameState>(
-                          buildWhen: (previous, current) => previous.gameMode != current.gameMode,
-                          builder: (context, state) {
-                            //if (state.gameMode == GameMode.menu) return Expanded(child: HomeMenuMode());
-                            return SizedBox.shrink();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),*/
                 //HomeLearnNumbers(),
                 Align(
                   alignment: AlignmentGeometry.bottomCenter,

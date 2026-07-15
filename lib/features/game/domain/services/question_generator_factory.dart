@@ -10,7 +10,7 @@ class QuestionGeneratorFactory {
       GameMode.mult => MultQuestionGenerator(),
       GameMode.div => DivQuestionGenerator(),
       GameMode.menu => throw UnimplementedError(),
-      GameMode.tutorial || GameMode.learnLetters || GameMode.mix => throw UnimplementedError(),
+      GameMode.tutorial => throw UnimplementedError(),
     };
   }
 }
