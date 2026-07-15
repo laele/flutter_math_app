@@ -42,7 +42,7 @@ class MenuScreen extends StatelessWidget {
                   child: Center(
                     child: FilledButton(
                       onPressed: () {
-                        context.read<GameCubit>().startGameBySelectedMode(gameMode: GameMode.tutorial);
+                        context.read<GameCubit>().startGame();
                         Navigator.pop(context);
                       },
                       child: Text('How to play ? '),

@@ -10,9 +10,9 @@ class HomeFloatingActionButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GameCubit, GameState>(
-      buildWhen: (previous, current) => previous.gameMode != current.gameMode,
+      buildWhen: (previous, current) => previous.currentGameMode != current.currentGameMode,
       builder: (context, state) {
-        if (state.gameMode == GameMode.menu) {
+        if (state.showMenu) {
           // return Game Menu
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -26,7 +26,6 @@ class HomeFloatingActionButtons extends StatelessWidget {
                       child: FloatingActionButton(
                         onPressed: () {
                           MenuScreen.show(context);
-                          //context.read<GameCubit>().startGameBySelectedMode(gameMode: GameMode.add);
                         },
                         child: Icon(Icons.menu),
                       ),
@@ -42,7 +41,7 @@ class HomeFloatingActionButtons extends StatelessWidget {
                   children: [
                     FloatingActionButton(
                       onPressed: () {
-                        context.read<GameCubit>().startGameBySelectedMode(gameMode: GameMode.add);
+                        context.read<GameCubit>().startGame();
                       },
                       child: Icon(Icons.play_arrow),
                     ),
