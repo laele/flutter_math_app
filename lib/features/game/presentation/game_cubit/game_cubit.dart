@@ -39,6 +39,7 @@ class GameCubit extends Cubit<GameState> {
     final question = generator.generate(currentTier);
     emit(
       state.copyWith(
+        canDraw: true,
         currentGameMode: nextGameMode,
         firstNum: question.firstNum,
         secNum: question.secNum,
@@ -53,6 +54,7 @@ class GameCubit extends Cubit<GameState> {
   }
 
   void checkResult(int result) async {
+    emit(state.copyWith(canDraw: false));
     final wasCorrect = (result == state.result);
     final gameMode = state.currentGameMode;
     final tiers = DifficultyTiers.byMode[gameMode];
@@ -114,6 +116,7 @@ class GameCubit extends Cubit<GameState> {
       if (!state.showMenu) {
         emit(state.copyWith(message: previousMessage, petAnimation: PetAnimation.thinking, playAnimation: true));
         await Future.delayed(Duration(seconds: 4));
+        emit(state.copyWith(canDraw: true));
       }
       return;
     } else {

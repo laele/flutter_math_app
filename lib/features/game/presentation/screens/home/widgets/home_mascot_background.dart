@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -79,6 +80,29 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
                 Align(
                   alignment: AlignmentGeometry.bottomCenter,
                   child: HomeAnimatedTextBubble(),
+                ),
+                BlocBuilder<GameCubit, GameState>(
+                  buildWhen: (previous, current) {
+                    if (previous.canDraw != current.canDraw) {
+                      return true;
+                    }
+                    return false;
+                  },
+                  builder: (context, state) {
+                    return state.canDraw
+                        ? BounceInDown(
+                            from: 20,
+                            duration: Duration(milliseconds: 300),
+                            child: Align(
+                              alignment: AlignmentGeometry.center,
+                              child: Icon(
+                                Icons.draw,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        : SizedBox.shrink();
+                  },
                 ),
               ],
             ),
