@@ -37,6 +37,7 @@ class GameState extends Equatable {
   });
 
   GameStatsEntity get currentGameStats => stats[currentGameMode] ?? GameStatsEntity();
+  GameStatsEntity gameStats(GameMode gameMode) => stats[gameMode] ?? GameStatsEntity();
 
   GameState copyWith({
     bool? showMenu,

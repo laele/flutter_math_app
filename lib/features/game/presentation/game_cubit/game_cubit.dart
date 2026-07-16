@@ -32,7 +32,9 @@ class GameCubit extends Cubit<GameState> {
     final tiers = DifficultyTiers.byMode[nextGameMode];
     if (tiers == null) return;
 
-    final currentTier = tiers[state.stats[nextGameMode]!.currentTierIndex];
+    final currentGameStats = state.gameStats(nextGameMode);
+
+    final currentTier = tiers[currentGameStats.currentTierIndex];
     final generator = QuestionGeneratorFactory.forMode(nextGameMode);
     final question = generator.generate(currentTier);
     emit(
