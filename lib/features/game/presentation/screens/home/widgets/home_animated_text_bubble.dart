@@ -16,11 +16,11 @@ class _HomeAnimatedTextBubbleState extends State<HomeAnimatedTextBubble> {
   void _bounce() async {
     setState(() => _scale = 0.55);
 
-    await Future.delayed(const Duration(milliseconds: 50));
+    await Future.delayed(const Duration(milliseconds: 100));
 
     setState(() => _scale = 1.55);
 
-    await Future.delayed(const Duration(milliseconds: 120));
+    await Future.delayed(const Duration(milliseconds: 150));
 
     setState(() => _scale = 1);
   }
@@ -40,7 +40,7 @@ class _HomeAnimatedTextBubbleState extends State<HomeAnimatedTextBubble> {
               padding: const EdgeInsets.all(16.0),
               child: AnimatedScale(
                 scale: _scale,
-                duration: Duration(milliseconds: 170),
+                duration: Duration(milliseconds: 250),
                 curve: Curves.easeOutBack,
                 child: Container(
                   //color: Colors.yellow,
