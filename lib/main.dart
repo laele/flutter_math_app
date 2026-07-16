@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => sl<GameCubit>()..backToMenu(),
+          create: (context) => sl<GameCubit>(),
         ),
         BlocProvider(
           create: (context) => sl<InputRecognitionCubit>()

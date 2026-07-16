@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
       body: Stack(
         children: [
           HomeMascotBackground(),
-          SafeArea(
+          /*SafeArea(
             child: BlocBuilder<GameCubit, GameState>(
               buildWhen: (previous, current) {
                 return previous.stats != current.stats;
@@ -41,7 +41,7 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
-          ),
+          ),*/
           HomePlayCanvas(key: homePlayCanvasKey),
         ],
       ),

@@ -102,14 +102,18 @@ class GameCubit extends Cubit<GameState> {
     if (clearAfterShow) {
       final String? previousMessage = state.message;
 
-      emit(state.copyWith(petAnimation: animation, message: message));
+      emit(state.copyWith(petAnimation: animation, message: message, playAnimation: true));
       await Future.delayed(Duration(seconds: 4));
       if (!state.showMenu) emit(state.copyWith(message: previousMessage));
       return;
     } else {
-      emit(state.copyWith(petAnimation: animation, message: message));
+      emit(state.copyWith(petAnimation: animation, message: message, playAnimation: true));
       await Future.delayed(Duration(seconds: 4));
     }
+  }
+
+  void setPlayAnimation({required bool playAnimation}) {
+    emit(state.copyWith(playAnimation: playAnimation));
   }
 
   // Menu Events----
@@ -119,10 +123,10 @@ class GameCubit extends Cubit<GameState> {
     generateNextLevel();
   }
 
-  void backToMenu() {
+  void backToMenu() async {
     _mixModeSelector.reset();
     emit(state.copyWith(canDraw: false, showMenu: true));
-    playAnimation('Tap play to start a game!', animation: PetAnimation.success);
+    await playAnimation('Tap play to start a game!', animation: PetAnimation.success);
   }
 
   void setGameModes(GameMode gameMode) {

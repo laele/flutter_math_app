@@ -46,13 +46,14 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
       case _:
         break;
     }
+    context.read<GameCubit>().setPlayAnimation(playAnimation: false);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<GameCubit, GameState>(
       listenWhen: (previous, current) {
-        if (previous.petAnimation != current.petAnimation || previous.message != current.message) {
+        if (current.playAnimation) {
           return true;
         }
         return false;
@@ -99,6 +100,7 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
                         _triggerFailed = state.controller.stateMachine.trigger('Annoyed');
                         _triggerThinking = state.controller.stateMachine.trigger('Curious');
                       }
+                      context.read<GameCubit>().backToMenu();
                       return RiveWidget(controller: state.controller, fit: Fit.cover);
                     },
                   ),

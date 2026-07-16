@@ -13,9 +13,7 @@ class LearnNumbersQuestionGenerator implements QuestionGenerator {
 
   @override
   GameQuestionEntity generate(MinMaxTierEntity tier) {
-    print('Learn Numbers, max: ${tier.max} , min ${tier.min}');
     final number = tier.min + _random.nextInt(tier.max - tier.min + 1);
-    print('learn numbers, number: ${number} ');
     return GameQuestionEntity(resultNum: number);
   }
 }
@@ -26,11 +24,8 @@ class AddQuestionGenerator implements QuestionGenerator {
 
   @override
   GameQuestionEntity generate(MinMaxTierEntity tier) {
-    print('Add, max: ${tier.max} , min ${tier.min}');
-
     final a = tier.min + _random.nextInt(tier.max - tier.min + 1);
     final b = tier.min + _random.nextInt(tier.max - tier.min + 1);
-    print('Add, a: ${a} , b ${b}');
     return GameQuestionEntity(firstNum: a, secNum: b, resultNum: a + b);
   }
 }
@@ -43,10 +38,8 @@ class SubQuestionGenerator implements QuestionGenerator {
   GameQuestionEntity generate(MinMaxTierEntity tier) {
     final a = tier.min + _random.nextInt(tier.max - tier.min + 1);
     final b = tier.min + _random.nextInt(tier.max - tier.min + 1);
-    print('sub, a: ${a} , b ${b}');
     final higher = max(a, b);
     final lower = min(a, b);
-    print('sub, max: ${tier.max} , min ${tier.min}, higher: ${higher}, lower: ${lower}');
     return GameQuestionEntity(firstNum: higher, secNum: lower, resultNum: higher - lower);
   }
 }
@@ -57,11 +50,8 @@ class MultQuestionGenerator implements QuestionGenerator {
 
   @override
   GameQuestionEntity generate(MinMaxTierEntity tier) {
-    print('Mult, max: ${tier.max} , min ${tier.min}');
-
     final a = tier.min + _random.nextInt(tier.max - tier.min + 1);
     final b = tier.min + _random.nextInt(tier.max - tier.min + 1);
-    print('mult, a: ${a} , b ${b}');
     return GameQuestionEntity(firstNum: a, secNum: b, resultNum: a * b);
   }
 }
@@ -75,7 +65,7 @@ class DivQuestionGenerator implements QuestionGenerator {
     final divisor = tier.min;
     final quotient = divisor + _random.nextInt(tier.max - tier.min + 1);
     final dividend = divisor * quotient;
-    print('div, max: ${tier.max} , min ${tier.min}, dividend ${dividend}, divisor ${divisor}');
+    //print('div, max: ${tier.max} , min ${tier.min}, dividend ${dividend}, divisor ${divisor}');
 
     return GameQuestionEntity(firstNum: dividend, secNum: divisor, resultNum: quotient);
   }
