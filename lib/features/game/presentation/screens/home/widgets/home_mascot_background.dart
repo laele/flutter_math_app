@@ -24,6 +24,7 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
   void initState() {
     super.initState();
     fileLoader = FileLoader.fromAsset('lib/core/assets/rive/greg_the_frog.riv', riveFactory: Factory.rive);
+    //context.read<GameCubit>().backToMenu();
   }
 
   @override
@@ -53,7 +54,8 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
   Widget build(BuildContext context) {
     return BlocListener<GameCubit, GameState>(
       listenWhen: (previous, current) {
-        if (current.playAnimation) {
+        if (previous.playAnimation != current.playAnimation) {
+          print('prevous animation is diffentet from current animaiton');
           return true;
         }
         return false;
@@ -99,8 +101,9 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
 
                         _triggerFailed = state.controller.stateMachine.trigger('Annoyed');
                         _triggerThinking = state.controller.stateMachine.trigger('Curious');
+                        context.read<GameCubit>().backToMenu(); // TODO cambiar a cuando se genera el menu
                       }
-                      context.read<GameCubit>().backToMenu();
+
                       return RiveWidget(controller: state.controller, fit: Fit.cover);
                     },
                   ),

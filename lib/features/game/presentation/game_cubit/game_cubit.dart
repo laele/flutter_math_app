@@ -24,7 +24,7 @@ class GameCubit extends Cubit<GameState> {
         ),
       );
 
-  void generateNextLevel() {
+  void generateNextLevel() async {
     final nextGameMode = _mixModeSelector.pickNext(
       candidates: state.selectedGameModes,
       stats: state.stats,
@@ -49,6 +49,7 @@ class GameCubit extends Cubit<GameState> {
         ),
       ),
     );
+    await playAnimation(animation: PetAnimation.thinking);
   }
 
   void checkResult(int result) async {
@@ -70,13 +71,17 @@ class GameCubit extends Cubit<GameState> {
     _setNewStats(gameMode!, newStats);
 
     if (isLevelUp) {
-      await playAnimation(animation: PetAnimation.success, 'Excellent! Here comes the next level!');
+      await playAnimation(animation: PetAnimation.success, message: 'Excellent! Here comes the next level!');
     } else if (wasCorrect) {
-      await playAnimation(animation: PetAnimation.success, 'Amazing, Let\'s try next number!');
+      await playAnimation(animation: PetAnimation.success, message: 'Amazing, Let\'s try next number!');
     } else if (isLevelDown) {
-      await playAnimation('Let\'s try an easier one!', animation: PetAnimation.failed, clearAfterShow: true);
+      await playAnimation(
+        message: 'Let\'s try an easier one!', // change to lower level message
+        animation: PetAnimation.failed,
+        //clearAfterShow: true,
+      );
     } else {
-      await playAnimation('Nope, Try it again!', animation: PetAnimation.failed, clearAfterShow: true);
+      await playAnimation(message: 'Nope, Try it again!', animation: PetAnimation.failed, clearAfterShow: true);
     }
 
     if (wasCorrect || isLevelDown) generateNextLevel();
@@ -98,13 +103,18 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(stats: stats));
   }
 
-  Future<void> playAnimation(String? message, {required PetAnimation animation, bool clearAfterShow = false}) async {
+  Future<void> playAnimation({String? message, required PetAnimation animation, bool clearAfterShow = false}) async {
     if (clearAfterShow) {
       final String? previousMessage = state.message;
-
+      final PetAnimation? previousPetAnimation = state.petAnimation;
       emit(state.copyWith(petAnimation: animation, message: message, playAnimation: true));
-      await Future.delayed(Duration(seconds: 4));
-      if (!state.showMenu) emit(state.copyWith(message: previousMessage));
+
+      await Future.delayed(Duration(seconds: 5));
+
+      if (!state.showMenu) {
+        emit(state.copyWith(message: previousMessage, petAnimation: PetAnimation.thinking, playAnimation: true));
+        await Future.delayed(Duration(seconds: 4));
+      }
       return;
     } else {
       emit(state.copyWith(petAnimation: animation, message: message, playAnimation: true));
@@ -126,7 +136,7 @@ class GameCubit extends Cubit<GameState> {
   void backToMenu() async {
     _mixModeSelector.reset();
     emit(state.copyWith(canDraw: false, showMenu: true));
-    await playAnimation('Tap play to start a game!', animation: PetAnimation.success);
+    await playAnimation(message: 'Tap play to start a game!', animation: PetAnimation.success);
   }
 
   void setGameModes(GameMode gameMode) {

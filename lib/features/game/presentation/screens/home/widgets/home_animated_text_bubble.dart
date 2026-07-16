@@ -1,16 +1,36 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_math_app/features/game/presentation/game_cubit/game_cubit.dart';
 
-class HomeAnimatedTextBubble extends StatelessWidget {
+class HomeAnimatedTextBubble extends StatefulWidget {
   const HomeAnimatedTextBubble({super.key});
+
+  @override
+  State<HomeAnimatedTextBubble> createState() => _HomeAnimatedTextBubbleState();
+}
+
+class _HomeAnimatedTextBubbleState extends State<HomeAnimatedTextBubble> {
+  double _scale = 1;
+  void _bounce() async {
+    setState(() => _scale = 0.55);
+
+    await Future.delayed(const Duration(milliseconds: 50));
+
+    setState(() => _scale = 1.55);
+
+    await Future.delayed(const Duration(milliseconds: 120));
+
+    setState(() => _scale = 1);
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GameCubit, GameState>(
       buildWhen: (previous, current) {
         if (previous.message != current.message) {
+          _bounce();
           return true;
         }
         return false;
@@ -19,8 +39,9 @@ class HomeAnimatedTextBubble extends StatelessWidget {
           ? Padding(
               padding: const EdgeInsets.all(16.0),
               child: AnimatedScale(
-                scale: 1,
-                duration: Duration(milliseconds: 500),
+                scale: _scale,
+                duration: Duration(milliseconds: 170),
+                curve: Curves.easeOutBack,
                 child: Container(
                   //color: Colors.yellow,
                   decoration: BoxDecoration(
@@ -30,7 +51,7 @@ class HomeAnimatedTextBubble extends StatelessWidget {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: AnimatedTextKit(
                       key: ValueKey(state.message),
                       totalRepeatCount: 1,
