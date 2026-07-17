@@ -34,66 +34,98 @@ class MenuScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Menu Options', style: Theme.of(context).textTheme.titleLarge),
-              SizedBox(height: 12.0),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: FilledButton(
-                      onPressed: () {
-                        context.read<GameCubit>().startGame();
-                        Navigator.pop(context);
-                      },
-                      child: Text('How to play ? '),
-                    ),
-                  ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Menu Options', style: Theme.of(context).textTheme.titleLarge),
+                ],
+              ),
+              SizedBox(height: 16.0),
+              FilledButton(
+                onPressed: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 32, width: 32, child: Image.asset('lib/core/assets/images/how_to_play_icon.png')),
+                    SizedBox(width: 8.0),
+                    Text('How to play'),
+                  ],
                 ),
               ),
-              SizedBox(height: 12.0),
-              Text('Selected modes you want to integrate playing', style: Theme.of(context).textTheme.bodyMedium),
               SizedBox(height: 8.0),
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: BlocBuilder<GameCubit, GameState>(
-                      buildWhen: (previous, current) {
-                        print('hello');
-                        if (previous.selectedGameModes != current.selectedGameModes) {
-                          print(current.selectedGameModes);
-                          return true;
-                        }
+              Text('Selected modes you want to integrate playing', style: Theme.of(context).textTheme.bodyMedium),
+              SizedBox(height: 4.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: BlocBuilder<GameCubit, GameState>(
+                    buildWhen: (previous, current) {
+                      if (previous.selectedGameModes != current.selectedGameModes) {
                         return true;
-                      },
-                      builder: (context, state) {
-                        return Wrap(
-                          children: GameModes.items
-                              .map(
-                                (gameMode) => GameModeItem(
-                                  title: gameMode.title,
-                                  isSelected: state.selectedGameModes.contains(gameMode.gameMode),
-                                  gameMode: gameMode.gameMode,
-                                ),
-                              )
-                              .toList(),
-                        );
-                      },
-                    ),
+                      }
+                      return true;
+                    },
+                    builder: (context, state) {
+                      return LayoutBuilder(
+                        builder: (context, constraints) {
+                          final itemsPerRow = 4;
+                          final minItemWidth = 20.0;
+                          final maxItemWidth = 150.0;
+                          final calculateWidth = constraints.maxWidth / itemsPerRow;
+                          double finalWidth;
+                          if (calculateWidth < minItemWidth) {
+                            finalWidth = minItemWidth;
+                          } else if (calculateWidth > maxItemWidth) {
+                            finalWidth = maxItemWidth;
+                          } else {
+                            finalWidth = calculateWidth;
+                          }
+                          return Wrap(
+                            alignment: WrapAlignment.center,
+                            children: GameModes.items
+                                .map(
+                                  (gameMode) => GameModeItem(
+                                    itemWidth: finalWidth,
+                                    title: gameMode.title,
+                                    isSelected: state.selectedGameModes.contains(gameMode.gameMode),
+                                    gameMode: gameMode.gameMode,
+                                  ),
+                                )
+                                .toList(),
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
               ),
+              SizedBox(height: 8.0),
 
-              SizedBox(
-                width: double.infinity,
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Center(
-                      child: FilledButton(onPressed: () {}, child: Text('Change Language')),
-                    ),
-                  ),
+              FilledButton(
+                onPressed: () {},
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 32, width: 32, child: Image.asset('lib/core/assets/images/lang_icon.png')),
+                    SizedBox(width: 8.0),
+                    Text('Change Language'),
+                  ],
+                ),
+              ),
+              SizedBox(height: 8.0),
+              FilledButton(
+                style: FilledButton.styleFrom(backgroundColor: Colors.redAccent),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Close'),
+                    SizedBox(width: 8.0),
+                    Icon(Icons.close),
+                  ],
                 ),
               ),
             ],
