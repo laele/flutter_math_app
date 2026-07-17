@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_math_app/core/theme/app_gradients.dart';
 import 'package:flutter_math_app/features/game/presentation/game_cubit/game_cubit.dart';
 import 'package:flutter_math_app/features/game/presentation/screens/home/widgets/home_animated_text_bubble.dart';
+import 'package:flutter_math_app/features/game/presentation/screens/home/widgets/pencil_sign.dart';
 import 'package:rive/rive.dart';
 
 class HomeMascotBackground extends StatefulWidget {
@@ -25,7 +26,6 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
   void initState() {
     super.initState();
     fileLoader = FileLoader.fromAsset('lib/core/assets/rive/greg_the_frog.riv', riveFactory: Factory.rive);
-    //context.read<GameCubit>().backToMenu();
   }
 
   @override
@@ -64,7 +64,6 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
         _animationState(state.petAnimation);
       },
       child: Column(
-        //mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Expanded(
             child: Stack(
@@ -88,19 +87,7 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
                     return false;
                   },
                   builder: (context, state) {
-                    return state.canDraw
-                        ? BounceInDown(
-                            from: 20,
-                            duration: Duration(milliseconds: 300),
-                            child: Align(
-                              alignment: AlignmentGeometry.center,
-                              child: Icon(
-                                Icons.draw,
-                                color: Colors.white,
-                              ),
-                            ),
-                          )
-                        : SizedBox.shrink();
+                    return state.canDraw ? PencilSign() : SizedBox.shrink();
                   },
                 ),
               ],
