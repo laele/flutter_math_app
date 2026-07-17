@@ -105,23 +105,23 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(stats: stats));
   }
 
-  Future<void> playAnimation({String? message, required PetAnimation animation, bool clearAfterShow = false}) async {
+  Future<void> playAnimation({String? message, required PetAnimation animation, bool clearAfterShow = false, bool? canDraw}) async {
+    if (canDraw != null && canDraw == false) {
+      emit(state.copyWith(canDraw: false));
+    }
     if (clearAfterShow) {
       final String? previousMessage = state.message;
-      //final PetAnimation? previousPetAnimation = state.petAnimation;
       emit(state.copyWith(petAnimation: animation, message: message, playAnimation: true));
 
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(Duration(seconds: 6));
 
       if (!state.showMenu) {
-        emit(state.copyWith(message: previousMessage, petAnimation: PetAnimation.thinking, playAnimation: true));
-        await Future.delayed(Duration(seconds: 4));
-        emit(state.copyWith(canDraw: true));
+        emit(state.copyWith(message: previousMessage, canDraw: true, petAnimation: PetAnimation.thinking, playAnimation: true));
       }
       return;
     } else {
       emit(state.copyWith(petAnimation: animation, message: message, playAnimation: true));
-      await Future.delayed(Duration(seconds: 4));
+      await Future.delayed(Duration(seconds: 6));
     }
   }
 

@@ -56,7 +56,6 @@ class _HomeMascotBackgroundState extends State<HomeMascotBackground> {
     return BlocListener<GameCubit, GameState>(
       listenWhen: (previous, current) {
         if (previous.playAnimation != current.playAnimation) {
-          print('prevous animation is diffentet from current animaiton');
           return true;
         }
         return false;
