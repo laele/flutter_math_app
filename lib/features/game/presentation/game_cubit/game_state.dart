@@ -22,11 +22,13 @@ class GameState extends Equatable {
 
   final bool canDraw;
   final bool showMenu;
+  final bool hideOperation;
 
   const GameState({
     required this.petAnimation,
     required this.selectedGameModes,
     required this.currentExercise,
+    required this.hideOperation,
     this.currentGameMode,
     this.stats = const {},
     this.message,
@@ -40,6 +42,13 @@ class GameState extends Equatable {
 
   GameStatsEntity get currentGameStats => stats[currentGameMode] ?? GameStatsEntity();
   GameStatsEntity gameStats(GameMode gameMode) => stats[gameMode] ?? GameStatsEntity();
+  String get currentGameModeOperator => switch (currentGameMode) {
+    GameMode.add => '+',
+    GameMode.sub => '-',
+    GameMode.mult => '×',
+    GameMode.div => '÷',
+    _ => '',
+  };
 
   GameState copyWith({
     bool? playAnimation,
@@ -57,8 +66,10 @@ class GameState extends Equatable {
     bool? readyToClearMessage,
     bool? canDraw,
     int? currentExercise,
+    bool? hideOperation,
   }) {
     return GameState(
+      hideOperation: hideOperation ?? this.hideOperation,
       playAnimation: playAnimation ?? this.playAnimation,
       showMenu: showMenu ?? this.showMenu,
       currentGameMode: currentGameMode ?? this.currentGameMode,
@@ -76,6 +87,7 @@ class GameState extends Equatable {
 
   @override
   List<Object?> get props => [
+    hideOperation,
     playAnimation,
     showMenu,
     stats,

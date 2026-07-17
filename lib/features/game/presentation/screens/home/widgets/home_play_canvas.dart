@@ -62,7 +62,7 @@ class HomePlayCanvasState extends State<HomePlayCanvas> with SingleTickerProvide
           context.read<InputRecognitionCubit>().clearCanvas();
           resetAnimation();
         }
-        if (state.isStatusFailure) {
+        if (state.isStatusFailure && !context.read<GameCubit>().state.showMenu) {
           context.read<GameCubit>().playAnimation(message: state.errorMessage!, animation: PetAnimation.failed, clearAfterShow: true, canDraw: false);
         }
         if (state.status == InputRecognitionStatus.success) {

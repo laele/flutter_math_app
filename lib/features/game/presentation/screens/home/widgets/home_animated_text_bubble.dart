@@ -42,30 +42,50 @@ class _HomeAnimatedTextBubbleState extends State<HomeAnimatedTextBubble> {
                 scale: _scale,
                 duration: Duration(milliseconds: 250),
                 curve: Curves.easeOutBack,
-                child: Container(
-                  //color: Colors.yellow,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(
-                      32.0,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: AnimatedTextKit(
-                      key: ValueKey(state.message),
-                      totalRepeatCount: 1,
-                      animatedTexts: [
-                        TyperAnimatedText(
-                          state.message!,
-                          textAlign: TextAlign.center,
-                          textStyle: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                            color: Colors.pink,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (!state.hideOperation)
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(32),
+                          color: Colors.white,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            '${state.firstNum} ${state.currentGameModeOperator} ${state.secNum}',
+                            style: Theme.of(context).textTheme.displayMedium,
                           ),
                         ),
-                      ],
+                      ),
+                    SizedBox(height: 8.0),
+                    Container(
+                      //color: Colors.yellow,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(
+                          32.0,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: AnimatedTextKit(
+                          key: ValueKey(state.message),
+                          totalRepeatCount: 1,
+                          animatedTexts: [
+                            TyperAnimatedText(
+                              state.message!,
+                              textAlign: TextAlign.center,
+                              textStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                color: Colors.pink,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
             )

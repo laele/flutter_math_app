@@ -17,6 +17,7 @@ class GameCubit extends Cubit<GameState> {
       super(
         GameState(
           petAnimation: PetAnimation.idle,
+          hideOperation: true,
           //gameMode: GameMode.menu,
           //currentQuestionMode: GameMode.menu,
           selectedGameModes: GameModes.items.map((e) => e.gameMode).toList(),
@@ -44,6 +45,7 @@ class GameCubit extends Cubit<GameState> {
         firstNum: question.firstNum,
         secNum: question.secNum,
         result: question.resultNum,
+        hideOperation: false,
         message: _messageFromNewQuestion(
           gameMode: nextGameMode,
           question: question,
@@ -73,10 +75,13 @@ class GameCubit extends Cubit<GameState> {
     _setNewStats(gameMode!, newStats);
 
     if (isLevelUp) {
-      await playAnimation(animation: PetAnimation.success, message: 'Excellent! Here comes the next level!');
+      emit(state.copyWith(hideOperation: true));
+      await playAnimation(animation: PetAnimation.success, message: 'Excellent! You are getting better!');
     } else if (wasCorrect) {
+      emit(state.copyWith(hideOperation: true));
       await playAnimation(animation: PetAnimation.success, message: 'Amazing, Let\'s try next number!');
     } else if (isLevelDown) {
+      emit(state.copyWith(hideOperation: true));
       await playAnimation(
         message: 'Let\'s try an easier one!', // change to lower level message
         animation: PetAnimation.failed,
@@ -91,11 +96,11 @@ class GameCubit extends Cubit<GameState> {
 
   String _messageFromNewQuestion({required GameMode gameMode, required GameQuestionEntity question}) {
     return switch (gameMode) {
-      GameMode.learnNumbers => 'Draw ${question.resultNum} number!',
-      GameMode.add => 'Let\'s add these numbers! ${question.firstNum} + ${question.secNum}',
-      GameMode.sub => 'Time to substract! ${question.firstNum} - ${question.secNum}',
-      GameMode.mult => 'Let\'s multiply!  ${question.firstNum} * ${question.secNum}',
-      GameMode.div => 'Can you solve this division? ${question.firstNum} / ${question.secNum} ',
+      GameMode.learnNumbers => 'Draw this number!',
+      GameMode.add => 'Let\'s add these numbers!',
+      GameMode.sub => 'Time to substract!',
+      GameMode.mult => 'Let\'s multiply!',
+      GameMode.div => 'Can you solve this division?',
       _ => '',
     };
   }
@@ -139,10 +144,7 @@ class GameCubit extends Cubit<GameState> {
   void backToMenu() async {
     _mixModeSelector.reset();
     emit(
-      state.copyWith(
-        canDraw: false,
-        showMenu: true,
-      ),
+      state.copyWith(canDraw: false, showMenu: true, hideOperation: true),
     );
     await playAnimation(message: 'Tap play to start a game!', animation: PetAnimation.success);
   }
