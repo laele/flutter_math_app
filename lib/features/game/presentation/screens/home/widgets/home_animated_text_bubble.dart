@@ -40,7 +40,8 @@ class _HomeAnimatedTextBubbleState extends State<HomeAnimatedTextBubble> {
               padding: const EdgeInsets.all(16.0),
               child: AnimatedScale(
                 scale: _scale,
-                duration: Duration(milliseconds: 250),
+                alignment: Alignment.bottomCenter,
+                duration: Duration(milliseconds: 350),
                 curve: Curves.easeOutBack,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -60,30 +61,52 @@ class _HomeAnimatedTextBubbleState extends State<HomeAnimatedTextBubble> {
                         ),
                       ),
                     SizedBox(height: 8.0),
-                    Container(
-                      //color: Colors.yellow,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(
-                          32.0,
+                    Stack(
+                      clipBehavior: Clip.none,
+                      alignment: AlignmentGeometry.bottomCenter,
+                      children: [
+                        Container(
+                          //color: Colors.yellow,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(
+                              32.0,
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: AnimatedTextKit(
+                              key: ValueKey(state.message),
+                              totalRepeatCount: 1,
+                              animatedTexts: [
+                                TyperAnimatedText(
+                                  state.message!,
+                                  textAlign: TextAlign.center,
+                                  textStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    color: Colors.pink,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: AnimatedTextKit(
-                          key: ValueKey(state.message),
-                          totalRepeatCount: 1,
-                          animatedTexts: [
-                            TyperAnimatedText(
-                              state.message!,
-                              textAlign: TextAlign.center,
-                              textStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                color: Colors.pink,
+                        Positioned(
+                          bottom: -15,
+                          child: Transform.rotate(
+                            angle: 3.1416 / 4,
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12.0),
+                                ),
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ],
                 ),
