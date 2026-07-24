@@ -8,7 +8,9 @@ part 'audio_state.dart';
 
 class AudioCubit extends Cubit<AudioState> {
   final AudioRepository _audioRepository;
-  AudioCubit({required AudioRepository audioRepository}) : _audioRepository = audioRepository, super(const AudioState());
+  AudioCubit({required AudioRepository audioRepository})
+    : _audioRepository = audioRepository,
+      super(const AudioState());
 
   void initAudio() async {
     await _audioRepository.initAudio();
@@ -34,7 +36,10 @@ class AudioCubit extends Cubit<AudioState> {
   }
 
   void playSfxButtonTap() {
-    _audioRepository.playSfx(soundSfx: SoundEffectEntity.buttonTap, volume: 1.0);
+    _audioRepository.playSfx(
+      soundSfx: SoundEffectEntity.buttonTap,
+      volume: 1.0,
+    );
   }
 
   void playSfxCorrect() {
@@ -44,11 +49,17 @@ class AudioCubit extends Cubit<AudioState> {
 
   void playSfxIncorrect() {
     print('incorrect');
-    _audioRepository.playSfx(soundSfx: SoundEffectEntity.incorrect, volume: 1.0);
+    _audioRepository.playSfx(
+      soundSfx: SoundEffectEntity.incorrect,
+      volume: 1.0,
+    );
   }
 
   void playBackgroundMusic() {
     print('song');
-    _audioRepository.playBackgroundMusic(song: BackgroundSongEntity.gameplay, volume: 1.0);
+    _audioRepository.playBackgroundMusic(
+      song: BackgroundSongEntity.gameplay,
+      volume: 1.0,
+    );
   }
 }

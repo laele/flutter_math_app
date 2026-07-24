@@ -21,7 +21,7 @@ class _PencilSignState extends State<PencilSign> {
       () {
         if (!mounted) return;
         setState(() {
-          _opacity = 0.40;
+          _opacity = 0.25;
         });
       },
     );

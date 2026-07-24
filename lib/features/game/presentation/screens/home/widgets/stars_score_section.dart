@@ -1,9 +1,18 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_math_app/core/theme/app_colors.dart';
+import 'package:flutter_math_app/features/game/presentation/game_cubit/game_cubit.dart';
 
 class StarsScoreSection extends StatelessWidget {
-  const StarsScoreSection({super.key});
+  final double accuracy;
+  const StarsScoreSection({super.key, required this.accuracy});
+
+  int get _stars {
+    if (accuracy >= 0.8) return 3;
+    if (accuracy >= 0.5) return 2;
+    return 1;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +25,7 @@ class StarsScoreSection extends StatelessWidget {
             child: StarItem(
               width: 60,
               height: 60,
-              isCompleted: true,
+              isCompleted: _stars > 1 ? true : false,
             ),
           ),
           SizedBox(width: 8),
@@ -26,8 +35,11 @@ class StarsScoreSection extends StatelessWidget {
           SizedBox(width: 8),
           BounceInDown(
             delay: Duration(milliseconds: 400),
-
-            child: StarItem(width: 60, height: 60, isCompleted: false),
+            child: StarItem(
+              width: 60,
+              height: 60,
+              isCompleted: _stars > 2 ? true : false,
+            ),
           ),
         ],
       ),
@@ -39,7 +51,12 @@ class StarItem extends StatelessWidget {
   final double width;
   final double height;
   final bool isCompleted;
-  const StarItem({super.key, required this.width, required this.height, required this.isCompleted});
+  const StarItem({
+    super.key,
+    required this.width,
+    required this.height,
+    required this.isCompleted,
+  });
 
   @override
   Widget build(BuildContext context) {
