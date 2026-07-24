@@ -15,20 +15,42 @@ class HomePlayCanvas extends StatefulWidget {
 class HomePlayCanvasState extends State<HomePlayCanvas> with SingleTickerProviderStateMixin {
   late final AnimationController controller = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 200),
+    duration: const Duration(milliseconds: 250),
   );
 
   late final Animation<double> _fade = Tween<double>(begin: 1, end: 0).animate(
-    CurvedAnimation(
-      parent: controller,
-      curve: const Interval(0.6, 1.0),
-    ),
+    CurvedAnimation(parent: controller, curve: Curves.bounceInOut),
   );
 
-  late final Animation<double> _scale = TweenSequence<double>([
-    TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.5), weight: 40),
-    //TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.5), weight: 60),
-  ]).animate(CurvedAnimation(parent: controller, curve: const Interval(0.0, 1)));
+  late final Animation<double> _scale =
+      TweenSequence<double>([
+        TweenSequenceItem(
+          tween: Tween(
+            begin: 1.0,
+            end: 0.6,
+          ).chain(CurveTween(curve: Curves.easeIn)),
+          weight: 15,
+        ),
+        TweenSequenceItem(
+          tween: Tween(
+            begin: 0.96,
+            end: 1.6,
+          ).chain(CurveTween(curve: Curves.easeOut)),
+          weight: 45,
+        ),
+        TweenSequenceItem(
+          tween: Tween(
+            begin: 1.6,
+            end: 2.0,
+          ).chain(CurveTween(curve: Curves.easeOut)),
+          weight: 40,
+        ),
+      ]).animate(
+        CurvedAnimation(
+          parent: controller,
+          curve: const Interval(0.0, 1, curve: Curves.easeOut),
+        ),
+      );
 
   @override
   void dispose() {
@@ -37,7 +59,7 @@ class HomePlayCanvasState extends State<HomePlayCanvas> with SingleTickerProvide
   }
 
   Future<void> playOutAnimation() async {
-    await controller.forward();
+    await controller.forward(from: 0);
   }
 
   void resetAnimation() async {
@@ -94,12 +116,13 @@ class HomePlayCanvasState extends State<HomePlayCanvas> with SingleTickerProvide
                           child: BlocBuilder<GameCubit, GameState>(
                             buildWhen: (previous, current) => previous.canDraw != current.canDraw,
                             builder: (context, state) {
-                              return state.canDraw
-                                  ? Scribble(
-                                      notifier: inputRecognitionCubit.notifier,
-                                      drawPen: true,
-                                    )
-                                  : SizedBox.shrink();
+                              return IgnorePointer(
+                                ignoring: !state.canDraw,
+                                child: Scribble(
+                                  notifier: inputRecognitionCubit.notifier,
+                                  drawPen: true,
+                                ),
+                              );
                             },
                           ),
                         ),
